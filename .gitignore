@@ -1,0 +1,5 @@
+/build/
+chrome/bundle.js*
+/node_modules/
+/coverage/
+/testfirebase.zip
