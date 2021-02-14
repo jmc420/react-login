@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import Alert from '@material-ui/lab/Alert';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -8,13 +7,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
-import { IAuthenticationService } from "../service/IAuthenticationService";
 import { IUser } from '../model/IUser';
-import { useRadioGroup } from '@material-ui/core';
-import { Save } from '@material-ui/icons';
+import { IDataService } from '../service/IDataService';
 
 export interface IProfileDialogProps {
-    authService: IAuthenticationService;
+    dataService: IDataService;
     close: Function;
 }
 
@@ -29,7 +26,7 @@ export function ProfileDialog(props: IProfileDialogProps) {
     const [state, setState] = useState<IProfileState>(initialState());
 
     function cancelEdit() {
-        let user:IUser = props.authService.getUser();
+        let user:IUser = props.dataService.getUser();
 
         setState({ ...state, edit: false, firstName: user.first_name, otherName: user.other_names});
     }
@@ -47,17 +44,17 @@ export function ProfileDialog(props: IProfileDialogProps) {
     }
 
     function initialState(): IProfileState {
-        let user:IUser = props.authService.getUser();
+        let user:IUser = props.dataService.getUser();
 
         return { edit: false, firstName: user.first_name, otherName: user.other_names, user: user };
     }
 
     function save() {
-        let user:IUser = props.authService.getUser();
+        let user:IUser = props.dataService.getUser();
 
         user.first_name = state.firstName;
         user.other_names = state.otherName;
-        props.authService.saveUser(user);
+        props.dataService.saveUser(user);
         props.close();
     }
 
